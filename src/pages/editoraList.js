@@ -6,33 +6,32 @@ import {
     FlatList,
     TouchableOpacity
 } from "react-native";
-import { Card } from "react-native-elements";
 import api from "../services/api";
 
-export default function GeneroList() {
-    const [generos, setGeneros] = useState([]);
-    async function carregarGeneros() {
-        const response = await api.get("/generos");
-        setGeneros(response.data);
+export default function EditoraList() {
+    const [editoras, setEditoras] = useState([]);
+    async function carregarEditoras() {
+        const response = await api.get("/editoras");
+        setEditoras(response.data);
     }
-    carregarGeneros();
+    carregarEditoras();
 
     return (
         <View style={styles.container}>
-            <Card title='Lista de Genero'>
+            <Text style={styles.titulo}>Lista de Editoras</Text>
             <FlatList
-                data={generos}
-                
-                keyExtractor={genero => `${genero.id}`}
+                data={editoras}
+                style={styles.lista}
+                keyExtractor={editora => `${editora.id}`}
                 renderItem={({ item }) => (
-                    <View >
-                        <View >
+                    <View style={styles.container}>
+                        <View style={styles.card}>
                             <Text style={styles.label}>Id: {item.id}</Text>
-                            <Text style={styles.label}>Descrição: {item.descricao}</Text>
+                            <Text style={styles.label}>Nome: {item.nome}</Text>
                             <TouchableOpacity
                                 onPress={async () => {
                                     const id = item.id;
-                                    await api.delete(`/generos/${id}`);
+                                    await api.delete(`/editoras/${id}`);
                                 }}
                             >
                                 <Text style={styles.botaoTexto}>Excluir</Text>
@@ -40,14 +39,14 @@ export default function GeneroList() {
                         </View>
                     </View>
                 )}
-            /></Card>
+            />
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        marginTop: 10,
-        backgroundColor: "#0000FF",
+        marginTop: 25,
+        backgroundColor: "#C0C0C0",
         flex: 1,
         justifyContent: "center",
         alignItems: "stretch"
@@ -58,22 +57,23 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 18,
         marginTop: 30,
-        color: "#FFF",
+        color: "#00008B",
         fontWeight: "bold",
         textAlign: "center"
     },
     label: {
         fontWeight: "bold",
-        color: "#444"
+        color: "#000"
     },
     card: {
-        backgroundColor: "#FFF",
+        backgroundColor: "#DCDCDC",
         borderRadius: 5,
         padding: 10
     },
     botaoTexto: {
-        color: "#f05a5b",
+        color: "#FF0000",
         fontWeight: "bold",
-        fontSize: 16
+        fontSize: 16,
+        textAlign: "right"
     }
 });

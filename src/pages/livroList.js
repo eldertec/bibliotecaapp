@@ -6,6 +6,7 @@ import {
     FlatList,
     TouchableOpacity
 } from "react-native";
+import { Card } from "react-native-elements";
 import api from "../services/api";
 
 export default function LivroList(){
@@ -18,20 +19,22 @@ export default function LivroList(){
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Lista de Livros</Text>
+            <Card title='Lista de Livros' style={styles.container}>
             <FlatList
                 data={livros}
-                style={styles.lista}
+                
                 keyExtractor={livro => `${livro.id}`}
                 renderItem={({ item }) => (
-                    <View style={styles.container}>
-                        <View style={styles.card}>
-                            <Text style={styles.label}>Id: {item.id}</Text>
+                    <View style={styles.card}>
+                        <View>
+                            <Text style={styles.label}>Id:{item.id}</Text>
                             <Text style={styles.label}>Nome: {item.nome}</Text>
                             <Text style={styles.label}>Valor: {item.valor}</Text>
                             <Text style={styles.label}>Volume: {item.volume}</Text>
                             <Text style={styles.label}>Data da Publicação: {item.dataPublicacao}</Text>
                             <Text style={styles.label}>Gênero: {item.genero.descricao}</Text>
+                            <Text style={styles.label}>Autor: {item.autor.nome}</Text>
+                            <Text style={styles.label}>Editora: {item.editora.nome}</Text>
                             <TouchableOpacity
                                 onPress={async () => {
                                     const id = item.id;
@@ -43,14 +46,14 @@ export default function LivroList(){
                         </View>
                     </View>
                 )}
-            />
+            /></Card>
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        marginTop: 10,
-        backgroundColor: "#0000FF",
+        marginTop: 25,
+        backgroundColor: "#C0C0C0",
         flex: 1,
         justifyContent: "center",
         alignItems: "stretch"
@@ -61,24 +64,23 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 18,
         marginTop: 30,
-        color: "#FFF",
+        color: "#00008B",
         fontWeight: "bold",
         textAlign: "center"
     },
     label: {
         fontWeight: "bold",
-        color: "#444"
+        color: "#000"
     },
     card: {
-        backgroundColor: "#FFF",
+        backgroundColor: "#DCDCDC",
         borderRadius: 5,
         padding: 10
     },
     botaoTexto: {
-        color: "#f05a5b",
+        color: "#FF0000",
         fontWeight: "bold",
-        fontSize: 16
+        fontSize: 16,
+        textAlign: "right"
     }
-
-}
-);
+});
