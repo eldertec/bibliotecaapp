@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Picker, DatePickerAndroid } from 'react-native';
 import { Platform } from '@unimodules/core';
 import { useScreens } from 'react-native-screens';
-import { Icon, Header, Input } from 'react-native-elements'
+import { Icon, Header } from 'react-native-elements'
+import { TextInputMask } from 'react-native-masked-text'
 import api from '../services/api';
 
 
@@ -19,22 +20,6 @@ export default function LivroCad() {
     const [generos, setGeneros] = useState([]);
     const [editoras, setEditoras] = useState([]);
     const [autores, setAutores] = useState([]);
-
-
-    async function carregarGeneros() {
-        const response = await api.get("/generos");
-        setGeneros(response.data);
-    }
-
-    async function carregarEditoras() {
-        const response = await api.get("/editoras");
-        setEditoras(response.data);
-    }
-
-    async function carregarAutores() {
-        const response = await api.get("/autores");
-        setAutores(response.data);
-    }
 
     async function carregarDados() {
         try {
@@ -54,18 +39,16 @@ export default function LivroCad() {
 
     }
 
-
-    carregarDados();
-
-
     async function openAndroidDatePicker() {
         try {
             const { action, year, month, day } = await DatePickerAndroid.open({
                 date: new Date()
             });
             if (action !== DatePickerAndroid.dismissedAction) {
-                let novaData = year + '-' + (+month + 1) + '-' + day;
-                setDataPublicacao(novaData)
+                let mes = month + 1;
+                let novaData = year + '-' + (mes <= 9 ? '0' + mes : mes) + '-' + (day <= 9 ? '0' + day : day);
+                setDataPublicacao(novaData);
+                carregarDados();
             }
         } catch ({ code, message }) {
             console.warn('Cannot open date picker', message);
@@ -76,10 +59,10 @@ export default function LivroCad() {
         try {
             const response = await api.post('/livros',
                 {
-                    dataPublicacao,
-                    genero: { id: idGenero },
-                    editora: { id: idEditora },
                     autor: { id: idAutor },
+                    dataPublicacao,
+                    editora: { id: idEditora },
+                    genero: { id: idGenero },
                     nome,
                     valor,
                     volume
@@ -126,12 +109,23 @@ export default function LivroCad() {
                     keyboardType="numeric"
                     value={volume}
                     onChangeText={setVolume} />
-                <TextInput style={styles.input}
+
+                <TextInputMask style={styles.input}
                     placeholder="Valor"
                     placeholderTextColor="#999"
                     keyboardType="decimal-pad"
+                    type={'money'}
+                    options={{
+                        precision: 2,
+                        separator: '.',
+                        delimiter: ',',
+                        unit: '',
+                        suffixUnit: ''
+                    }}
                     value={valor}
-                    onChangeText={setValor} />
+                    onChangeText={setValor}
+                />
+
                 <View style={styles.dataView}>
 
                     <Icon style={styles.icone}
@@ -201,18 +195,10 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         backgroundColor: '#191970'
     },
-    titulo: {
-        fontSize: 20
-    },
     form: {
         alignSelf: 'stretch',
-        paddingHorizontal: 30,
+        paddingHorizontal: 20,
         backgroundColor: '#fff'
-    },
-    label: {
-        fontWeight: 'bold',
-        color: '#000',
-        marginBottom: 8
     },
     input: {
         borderWidth: 1,
@@ -228,7 +214,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#008000',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 2
+        borderRadius: 2,
+        marginBottom: 20
     },
     botaoTexto: {
         color: '#FFF',
@@ -260,10 +247,5 @@ const styles = StyleSheet.create({
     },
     flexPicker: {
         flex: 2
-    },
-    header: {
-        marginTop: 2
     }
-
-
 });

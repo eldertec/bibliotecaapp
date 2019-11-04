@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity,Alert} from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { Platform } from '@unimodules/core';
 import { useScreens } from 'react-native-screens';
+import { Header } from 'react-native-elements'
 import api from '../services/api';
 
 export default function GeneroCad() {
@@ -30,9 +31,14 @@ export default function GeneroCad() {
             enabled={Platform.OS == 'ios'}
             behavior="padding"
             style={styles.container} >
+                <Header
+                containerStyle={{ backgroundColor: '#191970' }}
+                leftComponent={{ icon: 'menu', color: '#fff' }}
+                centerComponent={{ text: 'Cadastro de Gênero', style: { color: '#fff', fontSize: 20 } }}
+                rightComponent={{ icon: 'home', color: '#fff' }}
+            />
             <View style={styles.form}>
-                <Text style={styles.titulo}>Cadastro de Genero</Text>
-                <Text style={styles.label}>Descrição: *</Text>
+            <View style={{ marginTop: 30 }}></View>
                 <TextInput style={styles.input}
                     placeholder="Descrição do genero"
                     placeholderTextColor="#999"
@@ -53,20 +59,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    titulo: {
-        fontSize: 20
+        alignItems: 'stretch',
+        backgroundColor: '#191970'
     },
     form: {
         alignSelf: 'stretch',
-        paddingHorizontal: 30,
-        marginTop: 30
-    },
-    label: {
-        fontWeight: 'bold',
-        color: '#444',
-        marginBottom: 8
+        paddingHorizontal: 20,
+        backgroundColor: '#fff'
     },
     input: {
         borderWidth: 1,
@@ -79,16 +78,41 @@ const styles = StyleSheet.create({
     },
     botao: {
         height: 42,
-        backgroundColor: '#f05a5b',
+        backgroundColor: '#008000',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 2
+        borderRadius: 2,
+        marginBottom: 20
     },
     botaoTexto: {
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    dataView: {
+        flexDirection: 'row',
+        marginBottom: 20
+    },
+    icone: {
+        flex: 1
+    },
+    inputData: {
+        flex: 2,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: '#444',
+
+        borderRadius: 2
+    },
+    labelPicker: {
+        flex: 1,
+        fontWeight: 'bold',
+        color: '#444',
+        marginBottom: 8
+    },
+    flexPicker: {
+        flex: 2
     }
-
 });
-

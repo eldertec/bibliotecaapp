@@ -9,34 +9,38 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function GeneroList() {
-    const [generos, setGeneros] = useState([]);
-    async function carregarGeneros() {
-        const response = await api.get("/generos");
-        setGeneros(response.data);
+export default function ClienteList() {
+    const [clientes, setClientes] = useState([]);
+    async function carregarClientes() {
+        const response = await api.get("/clientes");
+        setClientes(response.data);
     }
-    carregarGeneros();
+    carregarClientes();
 
     return (
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: 'Lista de Gêneros', style: { color: '#fff', fontSize: 20 } }}
+                centerComponent={{ text: 'Lista de Clientes', style: { color: '#fff', fontSize: 20 } }}
                 rightComponent={{ icon: 'home', color: '#fff' }}
             />
             <FlatList
-                data={generos}
+                data={clientes}
                 style={styles.lista}
-                keyExtractor={genero => `${genero.id}`}
+                keyExtractor={cliente => `${cliente.id}`}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
                         <Text style={styles.label}>Id: {item.id}</Text>
-                        <Text style={styles.label}>Descrição: {item.descricao}</Text>
+                        <Text style={styles.label}>Nome: {item.nome}</Text>
+                        <Text style={styles.label}>CPF: {item.cpf}</Text>
+                        <Text style={styles.label}>Telefone: {item.telefone}</Text>
+                        <Text style={styles.label}>Email: {item.email}</Text>                       
+                        <Text style={styles.label}>Sexo: {item.sexo}</Text>
                         <TouchableOpacity
                             onPress={async () => {
                                 const id = item.id;
-                                await api.delete(`/generos/${id}`);
+                                await api.delete(`/clientes/${id}`);
                             }}
                         >
                             <Text style={styles.botaoTexto}>Excluir</Text>

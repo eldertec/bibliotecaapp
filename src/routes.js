@@ -6,6 +6,8 @@ import LivroList from './pages/livroList';
 import LivroCad from './pages/livroCad';
 import AutorList from './pages/autorList';
 import EditoraList from './pages/editoraList';
+import ClienteList from './pages/clienteList';
+import EmprestimoList from './pages/emprestimoList';
 
 const Routes = createAppContainer(
     createDrawerNavigator({
@@ -26,10 +28,23 @@ const Routes = createAppContainer(
             navigationOptions: {
                 drawerLabel: 'Lista de Autor'
             }
-        },ListaEditora: {
+        },
+        ListaEditora: {
             screen: EditoraList,
             navigationOptions: {
                 drawerLabel: 'Lista de Editora'
+            }
+        },
+        ListaCliente: {
+            screen: ClienteList,
+            navigationOptions: {
+                drawerLabel: 'Lista de Cliente'
+            }
+        },
+        ListaEmprestimo: {
+            screen: EmprestimoList,
+            navigationOptions: {
+                drawerLabel: 'Lista de Emprestimo'
             }
         },
         CadastroLivro: {

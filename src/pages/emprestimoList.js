@@ -9,34 +9,39 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function GeneroList() {
-    const [generos, setGeneros] = useState([]);
-    async function carregarGeneros() {
-        const response = await api.get("/generos");
-        setGeneros(response.data);
+export default function EmprestimoList() {
+    const [emprestimos, setEmprestimos] = useState([]);
+    async function carregarEmprestimos() {
+        const response = await api.get("/emprestimos");
+        setEmprestimos(response.data);
     }
-    carregarGeneros();
+    carregarEmprestimos();
 
     return (
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: 'Lista de Gêneros', style: { color: '#fff', fontSize: 20 } }}
+                centerComponent={{ text: 'Lista de Emprestimos', style: { color: '#fff', fontSize: 20 } }}
                 rightComponent={{ icon: 'home', color: '#fff' }}
             />
             <FlatList
-                data={generos}
+                data={emprestimos}
                 style={styles.lista}
-                keyExtractor={genero => `${genero.id}`}
+                keyExtractor={emprestimo => `${emprestimo.id}`}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
                         <Text style={styles.label}>Id: {item.id}</Text>
-                        <Text style={styles.label}>Descrição: {item.descricao}</Text>
+                        <Text style={styles.label}>Cliente: {item.cliente.nome}</Text>
+                        <Text style={styles.label}>CPF: {item.cliente.cpf}</Text>
+                        <Text style={styles.label}>Livro: {item.livro.nome}</Text>
+                        <Text style={styles.label}>Data do emprestimo: {item.dataEmprestimo}</Text>
+                        <Text style={styles.label}>Data da devolução: {item.dataDevolucao}</Text>
+                        <Text style={styles.label}>Valor: {item.valorEmprestimo}</Text>
                         <TouchableOpacity
                             onPress={async () => {
                                 const id = item.id;
-                                await api.delete(`/generos/${id}`);
+                                await api.delete(`/emprestimos/${id}`);
                             }}
                         >
                             <Text style={styles.botaoTexto}>Excluir</Text>

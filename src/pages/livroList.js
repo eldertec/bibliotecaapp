@@ -6,10 +6,10 @@ import {
     FlatList,
     TouchableOpacity
 } from "react-native";
-import { Card } from "react-native-elements";
+import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function LivroList(){
+export default function LivroList() {
     const [livros, setLivros] = useState([]);
     async function carregarLivros() {
         const response = await api.get("/livros");
@@ -19,63 +19,62 @@ export default function LivroList(){
 
     return (
         <View style={styles.container}>
-            <Card title='Lista de Livros' style={styles.container}>
+            <Header
+                containerStyle={{ backgroundColor: '#191970' }}
+                leftComponent={{ icon: 'menu', color: '#fff' }}
+                centerComponent={{ text: 'Lista de Livros', style: { color: '#fff', fontSize: 20 } }}
+                rightComponent={{ icon: 'home', color: '#fff' }}
+            />
             <FlatList
                 data={livros}
-                
+                style={styles.lista}
                 keyExtractor={livro => `${livro.id}`}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        <View>
-                            <Text style={styles.label}>Id:{item.id}</Text>
-                            <Text style={styles.label}>Nome: {item.nome}</Text>
-                            <Text style={styles.label}>Valor: {item.valor}</Text>
-                            <Text style={styles.label}>Volume: {item.volume}</Text>
-                            <Text style={styles.label}>Data da Publicação: {item.dataPublicacao}</Text>
-                            <Text style={styles.label}>Gênero: {item.genero.descricao}</Text>
-                            <Text style={styles.label}>Autor: {item.autor.nome}</Text>
-                            <Text style={styles.label}>Editora: {item.editora.nome}</Text>
-                            <TouchableOpacity
-                                onPress={async () => {
-                                    const id = item.id;
-                                    await api.delete(`/livros/${id}`);
-                                }}
-                            >
-                                <Text style={styles.botaoTexto}>Excluir</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={styles.label}>Id:{item.id}</Text>
+                        <Text style={styles.label}>Nome: {item.nome}</Text>
+                        <Text style={styles.label}>Valor: {item.valor}</Text>
+                        <Text style={styles.label}>Volume: {item.volume}</Text>
+                        <Text style={styles.label}>Data da Publicação: {item.dataPublicacao}</Text>
+                        <Text style={styles.label}>Gênero: {item.genero.descricao}</Text>
+                        <Text style={styles.label}>Autor: {item.autor.nome}</Text>
+                        <Text style={styles.label}>Editora: {item.editora.nome}</Text>
+                        <TouchableOpacity
+                            onPress={async () => {
+                                const id = item.id;
+                                await api.delete(`/livros/${id}`);
+                            }}
+                        >
+                            <Text style={styles.botaoTexto}>Excluir</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
-            /></Card>
+            />
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        marginTop: 25,
-        backgroundColor: "#C0C0C0",
+        backgroundColor: "#191970",
         flex: 1,
         justifyContent: "center",
         alignItems: "stretch"
     },
     lista: {
-        paddingHorizontal: 20
-    },
-    titulo: {
-        fontSize: 18,
-        marginTop: 30,
-        color: "#00008B",
-        fontWeight: "bold",
-        textAlign: "center"
+        backgroundColor: "#fff",
+        paddingHorizontal: 20,
+        marginBottom: 20
     },
     label: {
         fontWeight: "bold",
         color: "#000"
     },
     card: {
-        backgroundColor: "#DCDCDC",
+        backgroundColor: "#ADD8E6",
         borderRadius: 5,
-        padding: 10
+        padding: 10,
+        marginBottom: 10,
+        marginTop: 10
     },
     botaoTexto: {
         color: "#FF0000",
