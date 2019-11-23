@@ -5,19 +5,19 @@ import { useScreens } from 'react-native-screens';
 import { Header } from 'react-native-elements'
 import api from '../services/api';
 
-export default function GeneroCad() {
+export default function EditoraCad() {
 
-    const [descricao, setDescricao] = useState('');
+    const [nome, setNome] = useState('');
 
     async function handleSubmit() {
         try {
-            const response = await api.post('/generos',
+            const response = await api.post('/editoras',
                 {
-                    descricao
+                    nome
                 });
 
-            Alert.alert('Gênero salvo com sucesso!');
-            setDescricao('');
+            Alert.alert('Editora salva com sucesso!');
+            setNome('');
 
         } catch (error) {
             console.log(error);
@@ -25,7 +25,6 @@ export default function GeneroCad() {
         }
 
     }
-
 
     return (
         <KeyboardAvoidingView
@@ -35,22 +34,21 @@ export default function GeneroCad() {
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: 'Cadastro de Gênero', style: { color: '#fff', fontSize: 20 } }}
+                centerComponent={{ text: 'Cadastro de Editora', style: { color: '#fff', fontSize: 20 } }}
                 rightComponent={{ icon: 'home', color: '#fff' }}
             />
             <View style={styles.form}>
                 <View style={{ marginTop: 30 }}></View>
                 <TextInput style={styles.input}
-                    placeholder="Descrição do genero"
+                    placeholder="Nome da Editora"
                     placeholderTextColor="#999"
-                    value={descricao}
-                    onChangeText={setDescricao} />
+                    value={nome}
+                    onChangeText={setNome} />
 
                 <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
                     <Text style={styles.botaoTexto}>Salvar</Text>
                 </TouchableOpacity>
             </View>
-
         </KeyboardAvoidingView>
 
     );

@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Picker } from 'react-native';
 import { Platform } from '@unimodules/core';
 import { useScreens } from 'react-native-screens';
 import { Header } from 'react-native-elements'
 import api from '../services/api';
 
-export default function GeneroCad() {
+export default function AutorCad() {
 
-    const [descricao, setDescricao] = useState('');
+    const [nome, setNome] = useState('');
+    const [sexo, setSexo] = useState('');
 
     async function handleSubmit() {
         try {
-            const response = await api.post('/generos',
+            const response = await api.post('/autores',
                 {
-                    descricao
+                    nome,
+                    sexo
                 });
 
-            Alert.alert('Gênero salvo com sucesso!');
-            setDescricao('');
+            Alert.alert('Autor salvo com sucesso!');
+            setNome('');
+            setSexo('');
 
         } catch (error) {
             console.log(error);
@@ -25,7 +28,6 @@ export default function GeneroCad() {
         }
 
     }
-
 
     return (
         <KeyboardAvoidingView
@@ -35,22 +37,30 @@ export default function GeneroCad() {
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: 'Cadastro de Gênero', style: { color: '#fff', fontSize: 20 } }}
+                centerComponent={{ text: 'Cadastro de Autor', style: { color: '#fff', fontSize: 20 } }}
                 rightComponent={{ icon: 'home', color: '#fff' }}
             />
             <View style={styles.form}>
                 <View style={{ marginTop: 30 }}></View>
                 <TextInput style={styles.input}
-                    placeholder="Descrição do genero"
+                    placeholder="Nome do Autor"
                     placeholderTextColor="#999"
-                    value={descricao}
-                    onChangeText={setDescricao} />
+                    value={nome}
+                    onChangeText={setNome} />
 
+                <View style={styles.dataView}>
+                    <Text style={styles.labelPicker}>Sexo:</Text>
+                    <Picker selectedValue={sexo}
+                        onValueChange={setSexo}
+                        style={styles.flexPicker}>
+                        <Picker.Item label='Masculino' value='MASCULINO' />
+                        <Picker.Item label='Feminino' value='FEMININO' />   
+                    </Picker>
+                </View>
                 <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
                     <Text style={styles.botaoTexto}>Salvar</Text>
                 </TouchableOpacity>
             </View>
-
         </KeyboardAvoidingView>
 
     );
@@ -86,7 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        marginTop: 360,
+        marginTop: 300,
         marginBottom: 20
     },
     botaoTexto: {

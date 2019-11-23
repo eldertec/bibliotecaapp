@@ -17,6 +17,14 @@ export default function LivroList() {
     }
     carregarLivros();
 
+    function formataData(valor) {
+        valor = String(valor).split('-');
+        let ano = String(valor[0]);
+        let mes = String(valor[1]);
+        let dia = String(valor[2]);
+        return `${dia}/${mes}/${ano}`;
+    }
+
     return (
         <View style={styles.container}>
             <Header
@@ -35,7 +43,7 @@ export default function LivroList() {
                         <Text style={styles.label}>Nome: {item.nome}</Text>
                         <Text style={styles.label}>Valor: {item.valor}</Text>
                         <Text style={styles.label}>Volume: {item.volume}</Text>
-                        <Text style={styles.label}>Data da Publicação: {item.dataPublicacao}</Text>
+                        <Text style={styles.label}>Data da Publicação: {formataData(item.dataPublicacao)}</Text>
                         <Text style={styles.label}>Gênero: {item.genero.descricao}</Text>
                         <Text style={styles.label}>Autor: {item.autor.nome}</Text>
                         <Text style={styles.label}>Editora: {item.editora.nome}</Text>

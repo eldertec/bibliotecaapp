@@ -17,6 +17,14 @@ export default function EmprestimoList() {
     }
     carregarEmprestimos();
 
+    function formataData(valor) {
+        valor = String(valor).split('-');
+        let ano = String(valor[0]);
+        let mes = String(valor[1]);
+        let dia = String(valor[2]);
+        return `${dia}/${mes}/${ano}`;
+    }
+
     return (
         <View style={styles.container}>
             <Header
@@ -35,8 +43,8 @@ export default function EmprestimoList() {
                         <Text style={styles.label}>Cliente: {item.cliente.nome}</Text>
                         <Text style={styles.label}>CPF: {item.cliente.cpf}</Text>
                         <Text style={styles.label}>Livro: {item.livro.nome}</Text>
-                        <Text style={styles.label}>Data do emprestimo: {item.dataEmprestimo}</Text>
-                        <Text style={styles.label}>Data da devolução: {item.dataDevolucao}</Text>
+                        <Text style={styles.label}>Data do emprestimo: {formataData(item.dataEmprestimo)}</Text>
+                        <Text style={styles.label}>Data da devolução: {formataData(item.dataDevolucao)}</Text>
                         <Text style={styles.label}>Valor: {item.valorEmprestimo}</Text>
                         <TouchableOpacity
                             onPress={async () => {
