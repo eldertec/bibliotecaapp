@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function GeneroList() {
+export default function GeneroList(props) {
     const [generos, setGeneros] = useState([]);
     async function carregarGeneros() {
         const response = await api.get("/generos");
@@ -21,9 +21,9 @@ export default function GeneroList() {
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Lista de Gêneros', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <FlatList
                 data={generos}

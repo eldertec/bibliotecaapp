@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function LivroList() {
+export default function LivroList(props) {
     const [livros, setLivros] = useState([]);
     async function carregarLivros() {
         const response = await api.get("/livros");
@@ -29,9 +29,9 @@ export default function LivroList() {
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Lista de Livros', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <FlatList
                 data={livros}

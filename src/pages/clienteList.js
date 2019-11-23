@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function ClienteList() {
+export default function ClienteList(props) {
     const [clientes, setClientes] = useState([]);
     async function carregarClientes() {
         const response = await api.get("/clientes");
@@ -21,9 +21,9 @@ export default function ClienteList() {
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Lista de Clientes', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <FlatList
                 data={clientes}

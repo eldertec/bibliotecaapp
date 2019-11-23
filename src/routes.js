@@ -12,10 +12,16 @@ import AutorCad from './pages/autorCad';
 import EditoraCad from './pages/editoraCad';
 import ClienteCad from './pages/clienteCad';
 import EmprestimoCad from './pages/emprestimoCad';
+import Home from './pages/home';
 
 const Routes = createAppContainer(
     createDrawerNavigator({
-
+        Home: {
+            screen: Home,
+            navigationOptions: {
+               drawerLabel: 'Home'
+            }
+        },
         ListaLivro: {
             screen: LivroList,
             navigationOptions: {

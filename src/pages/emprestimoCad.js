@@ -6,7 +6,7 @@ import { Icon, Header } from 'react-native-elements'
 import api from '../services/api';
 import { TextInputMask } from 'react-native-masked-text'
 
-export default function EmprestimoCad() {
+export default function EmprestimoCad(props) {
 
     const [valorEmprestimo, setValorEmprestimo] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
@@ -17,6 +17,9 @@ export default function EmprestimoCad() {
 
     const [livros, setLivros] = useState([]);
     const [clientes, setClientes] = useState([]);
+
+    const [dataDevolucaoFormatada, setDataDevolucaoFormatada] = useState('');
+    const [dataEmprestimoFormatada, setDataEmprestimoFormatada] = useState('');
 
     async function handleSubmit() {
         try {
@@ -35,6 +38,8 @@ export default function EmprestimoCad() {
             setDataEmprestimo('');
             setIdLivro('');
             setValorEmprestimo('');
+            setDataDevolucaoFormatada('');
+            setDataEmprestimoFormatada('');
 
         } catch (error) {
             console.log(error);
@@ -67,6 +72,7 @@ export default function EmprestimoCad() {
                 let mes = month + 1;
                 let novaData = year + '-' + (mes <= 9 ? '0' + mes : mes) + '-' + (day <= 9 ? '0' + day : day);
                 setDataDevolucao(novaData);
+                setDataDevolucaoFormatada(formataData(novaData));
                 carregarDados();
             }
         } catch ({ code, message }) {
@@ -83,11 +89,20 @@ export default function EmprestimoCad() {
                 let mes = month + 1;
                 let novaData = year + '-' + (mes <= 9 ? '0' + mes : mes) + '-' + (day <= 9 ? '0' + day : day);
                 setDataEmprestimo(novaData);
+                setDataEmprestimoFormatada(formataData(novaData));
             }
         } catch ({ code, message }) {
             console.warn('Erro ao abrir o calendario', message);
         }
     }
+
+    function formataData(valor) {
+        valor = String(valor).split('-');
+        let ano = String(valor[0]);
+        let mes = String(valor[1]);
+        let dia = String(valor[2]);
+        return `${dia}/${mes}/${ano}`;   
+}
 
     return (
         <KeyboardAvoidingView
@@ -96,9 +111,9 @@ export default function EmprestimoCad() {
             style={styles.container} >
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Empréstimos', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <View style={styles.form}>
                 <View style={{ marginTop: 30 }}></View>
@@ -118,7 +133,7 @@ export default function EmprestimoCad() {
                         placeholder="Data do Empréstimo"
                         placeholderTextColor="#999"
                         editable={false}
-                        value={dataEmprestimo} />
+                        value={dataEmprestimoFormatada} />
                 </View>
 
                 <View style={styles.dataView}>
@@ -136,7 +151,7 @@ export default function EmprestimoCad() {
                         placeholder="Data da Devolução"
                         placeholderTextColor="#999"
                         editable={false}
-                        value={dataDevolucao} />
+                        value={dataDevolucaoFormatada} />
                 </View>
 
                 <TextInputMask style={styles.input}

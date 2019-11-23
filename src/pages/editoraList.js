@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function EditoraList() {
+export default function EditoraList(props) {
     const [editoras, setEditoras] = useState([]);
     async function carregarEditoras() {
         const response = await api.get("/editoras");
@@ -20,9 +20,9 @@ export default function EditoraList() {
     return (
         <View style={styles.container}><Header
             containerStyle={{ backgroundColor: '#191970' }}
-            leftComponent={{ icon: 'menu', color: '#fff' }}
+            leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
             centerComponent={{ text: 'Lista de Editoras', style: { color: '#fff', fontSize: 20 } }}
-            rightComponent={{ icon: 'home', color: '#fff' }}
+            rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
         />
             <FlatList
                 data={editoras}

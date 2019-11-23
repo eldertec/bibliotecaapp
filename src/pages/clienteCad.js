@@ -5,7 +5,7 @@ import { useScreens } from 'react-native-screens';
 import { Header } from 'react-native-elements'
 import api from '../services/api';
 
-export default function ClienteCad() {
+export default function ClienteCad(props) {
 
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -107,9 +107,9 @@ export default function ClienteCad() {
             style={styles.container} >
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Cadastro de Cliente', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <View style={styles.form}>
                 <View style={{ marginTop: 30 }}></View>

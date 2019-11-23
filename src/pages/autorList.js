@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function AutorList() {
+export default function AutorList(props) {
     const [autores, setAutores] = useState([]);
     async function carregarAutores() {
         const response = await api.get("/autores");
@@ -21,9 +21,9 @@ export default function AutorList() {
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Lista de Autores', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <FlatList
                 data={autores}

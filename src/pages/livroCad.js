@@ -7,7 +7,7 @@ import { TextInputMask } from 'react-native-masked-text'
 import api from '../services/api';
 
 
-export default function LivroCad() {
+export default function LivroCad(props) {
 
     const [nome, setNome] = useState('');
     const [valor, setValor] = useState('');
@@ -16,6 +16,8 @@ export default function LivroCad() {
     const [idGenero, setIdGenero] = useState('');
     const [idEditora, setIdEditora] = useState('');
     const [idAutor, setIdAutor] = useState('');
+
+    const [dataFormatada, setDataFormatada] = useState('');
 
     const [generos, setGeneros] = useState([]);
     const [editoras, setEditoras] = useState([]);
@@ -48,6 +50,7 @@ export default function LivroCad() {
                 let mes = month + 1;
                 let novaData = year + '-' + (mes <= 9 ? '0' + mes : mes) + '-' + (day <= 9 ? '0' + day : day);
                 setDataPublicacao(novaData);
+                setDataFormatada(formataData(novaData))
                 carregarDados();
             }
         } catch ({ code, message }) {
@@ -73,9 +76,10 @@ export default function LivroCad() {
             setDataPublicacao('');
             setValor('');
             setVolume('');
-            setIdGenero('')
-            setIdEditora('')
-            setIdAutor('')
+            setIdGenero('');
+            setIdEditora('');
+            setIdAutor('');
+            setDataFormatada('');
 
         } catch (error) {
             console.log(error);
@@ -84,6 +88,13 @@ export default function LivroCad() {
 
     }
 
+    function formataData(valor) {
+            valor = String(valor).split('-');
+            let ano = String(valor[0]);
+            let mes = String(valor[1]);
+            let dia = String(valor[2]);
+            return `${dia}/${mes}/${ano}`;   
+    }
 
     return (
         <KeyboardAvoidingView
@@ -92,9 +103,9 @@ export default function LivroCad() {
             style={styles.container} >
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress: () => { props.navigation.openDrawer(); } }}
                 centerComponent={{ text: 'Cadastro de Livro', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress: () => { props.navigation.navigate('Home'); } }}
             />
             <View style={styles.form}>
                 <View style={{ marginTop: 30 }}></View>
@@ -141,7 +152,7 @@ export default function LivroCad() {
                         placeholder="Data da Publicação"
                         placeholderTextColor="#999"
                         editable={false}
-                        value={dataPublicacao} />
+                        value={dataFormatada} />
                 </View>
                 <View style={styles.dataView}>
                     <Text style={styles.labelPicker}>Gênero:</Text>

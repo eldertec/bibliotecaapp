@@ -9,7 +9,7 @@ import {
 import { Header } from 'react-native-elements'
 import api from "../services/api";
 
-export default function EmprestimoList() {
+export default function EmprestimoList(props) {
     const [emprestimos, setEmprestimos] = useState([]);
     async function carregarEmprestimos() {
         const response = await api.get("/emprestimos");
@@ -29,9 +29,9 @@ export default function EmprestimoList() {
         <View style={styles.container}>
             <Header
                 containerStyle={{ backgroundColor: '#191970' }}
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{ icon: 'menu', color: '#fff', onPress:() => {props.navigation.openDrawer();} }}
                 centerComponent={{ text: 'Lista de Emprestimos', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}
+                rightComponent={{ icon: 'home', color: '#fff', onPress:() => {props.navigation.navigate('Home');} }}
             />
             <FlatList
                 data={emprestimos}
